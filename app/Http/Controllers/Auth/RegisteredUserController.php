@@ -18,9 +18,16 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
+
+    public function index()
+    {
+        $users = User::all();
+        return view('users.index', compact('users'));
+    }
+
     public function create(): View
     {
-        return view('auth.register');
+        return view('users.register');
     }
 
     /**
@@ -28,16 +35,20 @@ class RegisteredUserController extends Controller
      *
      * @throws ValidationException
      */
+
     public function store(Request $request): RedirectResponse
     {
+        dd(request->all());
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'sex' => ['required', 'string', 'max:1'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'sex' => $request->sex,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
