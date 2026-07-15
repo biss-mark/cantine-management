@@ -142,9 +142,9 @@
                         <label class="font-label-md text-label-md text-on-surface-variant" for="loginStudentId">Student ID (Matricule)</label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">badge</span>
-                            <input class="w-full pl-10 pr-3 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" 
-                                    type="email" 
-                                    name="email" 
+                            <input class="w-full pl-10 pr-3 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                                    type="email"
+                                    name="email"
                                     value="{{ old('email') }}" id="email" placeholder="Email" />
                             @error('email')
                             <span style="color: red; display: block;">{{ $message }}</span>
@@ -158,10 +158,10 @@
                         </div>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">lock</span>
-                            <input 
+                            <input
                                 class="w-full pl-10 pr-10 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                                 type="password"
-                                name="password" placeholder="••••••••" id="password" placeholder="Password" 
+                                name="password" placeholder="••••••••" id="password" placeholder="Password"
                             />
                             @error('password')
                             <span style="color: red; display: block;">{{ $message }}</span>
@@ -179,31 +179,64 @@
             <!-- Registration Form -->
             <div class="hidden animate-fade-in" id="registerForm">
                 <h2 class="font-headline-md text-headline-md text-on-surface mb-sm">Create Account</h2>
-                <form class="space-y-sm">
+                <form class="space-y-sm" action="{{ route('users.register') }}" method="post" >
+                    @csrf
                     <div class="grid grid-cols-2 gap-sm">
                         <div class="space-y-base">
                             <label class="font-label-md text-label-md text-on-surface-variant" for="regFirstName">First Name</label>
-                            <input class="w-full px-3 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" id="regFirstName" placeholder="Jane" type="text"/>
+                            <input class="w-full px-3 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                                id="regFirstName" name="first_name" placeholder="Jane" type="text"/>
                         </div>
                         <div class="space-y-base">
                             <label class="font-label-md text-label-md text-on-surface-variant" for="regLastName">Last Name</label>
-                            <input class="w-full px-3 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" id="regLastName" placeholder="Doe" type="text"/>
+                            <input class="w-full px-3 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                            id="regLastName" name="last_name" placeholder="Doe" type="text"/>
                         </div>
                     </div>
+                    {{-- Ajouter le champ email --}}
                     <div class="space-y-base">
+                        <label class="font-label-md text-label-md text-on-surface-variant" for="regEmail">Email</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">email</span>
+                            <input class="w-full pl-10 pr-3 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                            id="regEmail" name="email" placeholder="Enter your email" type="email"/>
+                            @error('email')
+                                <p class="hidden font-label-sm text-label-sm text-error mt-1" id="regEmailError">Please enter a valid email address.</p>
+                            @enderror
+                        </div>
+                    </div>
+                    {{-- <div class="space-y-base">
                         <label class="font-label-md text-label-md text-on-surface-variant" for="regStudentId">Student ID (Matricule)</label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">badge</span>
-                            <input class="w-full pl-10 pr-3 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" id="regStudentId" placeholder="Enter your ID" type="text"/>
+                            <input class="w-full pl-10 pr-3 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                            id="regStudentId" name="student_id" placeholder="Enter your ID" type="text"/>
                         </div>
                         <p class="hidden font-label-sm text-label-sm text-error mt-1" id="regIdError">Student ID must be 8 digits.</p>
+                    </div> --}}
+                    {{-- Ajouter un select pour le sexe --}}
+                    <div class="space-y-base">
+                        <label class="font-label-md text-label-md text-on-surface-variant" for="regSex">Sex</label>
+                        <select class="w-full px-3 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                            id="regSex" name="sexe">
+                            <option value="">Selection du sexe</option>
+                            <option value="M">Masculin</option>
+                            <option value="F">Féminin</option>
+                        </select>
+                        @error('sexe')
+                            <p class="hidden font-label-sm text-label-sm text-error mt-1" id="regSexError">Please select a valid sex.</p>
+                        @enderror
                     </div>
                     <div class="space-y-base">
                         <label class="font-label-md text-label-md text-on-surface-variant" for="regPassword">Password</label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">lock</span>
-                            <input class="w-full pl-10 pr-3 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" id="regPassword" placeholder="Create a password" type="password"/>
+                            <input class="w-full pl-10 pr-3 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                            id="regPassword" name="password" placeholder="Create a password" type="password"/>
                         </div>
+                        @error('password')
+                            <p class="hidden font-label-sm text-label-sm text-error mt-1" id="regPasswordError">Password must be at least 8 characters.</p>
+                        @enderror
                     </div>
                     <button class="w-full mt-md bg-primary text-on-primary font-label-md text-label-md py-3 rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm" type="submit">
                         Register
@@ -222,19 +255,19 @@
                 if (tab === 'login') {
                     loginForm.classList.remove('hidden');
                     registerForm.classList.add('hidden');
-                    
+
                     loginTab.classList.add('text-primary', 'border-primary');
                     loginTab.classList.remove('text-on-surface-variant', 'border-transparent');
-                    
+
                     registerTab.classList.remove('text-primary', 'border-primary', 'border-b-2');
                     registerTab.classList.add('text-on-surface-variant', 'border-transparent');
                 } else {
                     registerForm.classList.remove('hidden');
                     loginForm.classList.add('hidden');
-                    
+
                     registerTab.classList.add('text-primary', 'border-primary', 'border-b-2');
                     registerTab.classList.remove('text-on-surface-variant', 'border-transparent');
-                    
+
                     loginTab.classList.remove('text-primary', 'border-primary');
                     loginTab.classList.add('text-on-surface-variant', 'border-transparent');
                 }
@@ -243,10 +276,10 @@
             // function validateRegistration() {
             //     const studentIdInput = document.getElementById('regStudentId');
             //     const errorText = document.getElementById('regIdError');
-                
+
             //     // Simple validation example: ID must be 8 digits
             //     const isValid = /^\d{8}$/.test(studentIdInput.value);
-                
+
             //     if (!isValid) {
             //         studentIdInput.classList.remove('border-outline-variant', 'focus:border-primary', 'focus:ring-primary/20');
             //         studentIdInput.classList.add('border-error', 'focus:border-error', 'focus:ring-error/20');
@@ -272,10 +305,10 @@
 
     <div style="margin-top: 10px;">
         <label for="email" class="w-full">E-mail</label>
-        <input 
-        class="w-full p-1 border focus:border-2 focus:border-primary outline-0" 
-        type="email" 
-        name="email" 
+        <input
+        class="w-full p-1 border focus:border-2 focus:border-primary outline-0"
+        type="email"
+        name="email"
         value="{{ old('email') }}" id="email" placeholder="Email" />
         @error('email')
         <span style="color: red; display: block;">{{ $message }}</span>
