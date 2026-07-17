@@ -12,7 +12,7 @@ class StoreRepasRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,6 +24,17 @@ class StoreRepasRequest extends FormRequest
     {
         return [
             //
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Le nom du repas est requis.',
+            'category.required' => 'La catégorie du repas est requise.',
+            'image.required' => 'L\'image du repas est requise.',
+            'description.required' => 'La description du repas est requise.',
+            'ingredient.required' => 'Les ingrédients du repas sont requis.',
         ];
     }
 }

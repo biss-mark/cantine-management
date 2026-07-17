@@ -174,37 +174,43 @@
 <div aria-labelledby="slide-over-title" aria-modal="true" class="fixed inset-0 z-[100] hidden overflow-hidden" id="sidePanel" role="dialog">
     <div class="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm transition-opacity" onclick="toggleSidePanel()"></div>
     <div class="fixed inset-y-0 right-0 flex max-w-full pl-10">
-        <div class="w-screen max-w-md side-panel-open bg-surface shadow-2xl h-full flex flex-col">
+        <form action="{{ route('repas.store') }}" method="post" class="w-screen max-w-md side-panel-open bg-surface shadow-2xl h-full flex flex-col" enctype="multipart/form-data">
+            @csrf
             <div class="px-gutter py-md border-b border-outline-variant flex items-center justify-between">
                 <h2 class="font-headline-md text-headline-md text-primary font-bold">Register New Meal</h2>
-                <button class="text-on-surface-variant hover:text-error p-2 transition-colors" onclick="toggleSidePanel()">
+                <button type="button" class="text-on-surface-variant hover:text-error p-2 transition-colors" onclick="toggleSidePanel()">
                     <span class="material-symbols-outlined" data-icon="close">close</span>
                 </button>
             </div>
+
+
             <div class="flex-1 overflow-y-auto custom-scrollbar p-gutter space-y-lg">
                 <!-- Photo Upload -->
                 <div class="space-y-sm">
                     <label class="font-label-md text-on-surface font-bold">Meal Presentation Photo</label>
-                    <div class="border-2 border-dashed border-outline-variant rounded-xl p-xl flex flex-col items-center justify-center bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer group">
-                        <span class="material-symbols-outlined text-primary text-[48px] mb-sm group-hover:scale-110 transition-transform" data-icon="cloud_upload">cloud_upload</span>
-                        <p class="text-label-md font-bold text-on-surface">Click to upload photo</p>
-                        <p class="text-[12px] text-on-surface-variant">PNG, JPG up to 10MB</p>
-                    </div>
+                    <input type="file" name="image" id="image" class="w-full px-md py-2.5 rounded-lg border border-outline-variant bg-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
                 </div>
                 <!-- Basic Info -->
                 <div class="space-y-sm">
                     <div>
                         <label class="font-label-md text-on-surface font-bold block mb-1">Meal Name</label>
-                        <input class="w-full px-md py-2.5 rounded-lg border border-outline-variant bg-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="e.g. Braised Beef Stew" type="text" />
+                        <input
+                            class="w-full px-md py-2.5 rounded-lg border border-outline-variant bg-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                            placeholder="e.g. Braised Beef Stew"
+                            type="text"
+                            id="name_meal"
+                            name="name_meal" />
                     </div>
                     <div>
                         <label class="font-label-md text-on-surface font-bold block mb-1">Category</label>
-                        <select class="w-full px-md py-2.5 rounded-lg border border-outline-variant bg-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
-                            <option>Select Category</option>
-                            <option>Starter</option>
-                            <option>Main Course</option>
-                            <option>Dessert</option>
-                            <option>Drink</option>
+                        <select
+                            class="w-full px-md py-2.5 rounded-lg border border-outline-variant bg-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                            name="category" id="category">
+                            <!-- <option>Select Category</option> -->
+                            <option value="starter">Starter</option>
+                            <option value="main course">Main Course</option>
+                            <option value="dessert">Dessert</option>
+                            <option value="drink">Drink</option>
                         </select>
                     </div>
                 </div>
@@ -212,43 +218,31 @@
                 <div class="space-y-sm">
                     <div>
                         <label class="font-label-md text-on-surface font-bold block mb-1">Description</label>
-                        <textarea class="w-full px-md py-2.5 rounded-lg border border-outline-variant bg-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Describe the meal's taste, preparation style, and portion size..." rows="3"></textarea>
+                        <textarea
+                            class="w-full px-md py-2.5 rounded-lg border border-outline-variant bg-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                            placeholder="Describe the meal's taste, preparation style, and portion size..."
+                            rows="3"
+                            id="description"
+                            name="description"></textarea>
                     </div>
                     <div>
                         <label class="font-label-md text-on-surface font-bold block mb-1">Ingredients</label>
-                        <textarea class="w-full px-md py-2.5 rounded-lg border border-outline-variant bg-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="List all main ingredients..." rows="2"></textarea>
-                    </div>
-                </div>
-
-                <!-- Health & Allergens -->
-                <div class="space-y-sm">
-                    <label class="font-label-md text-on-surface font-bold block">Allergens (Select all that apply)</label>
-                    <div class="grid grid-cols-2 gap-2">
-                        <label class="flex items-center gap-xs p-sm bg-surface-container-low rounded-lg border border-outline-variant cursor-pointer hover:bg-surface-container transition-colors">
-                            <input class="rounded text-primary focus:ring-primary" type="checkbox" />
-                            <span class="text-label-sm">Nuts</span>
-                        </label>
-                        <label class="flex items-center gap-xs p-sm bg-surface-container-low rounded-lg border border-outline-variant cursor-pointer hover:bg-surface-container transition-colors">
-                            <input class="rounded text-primary focus:ring-primary" type="checkbox" />
-                            <span class="text-label-sm">Dairy</span>
-                        </label>
-                        <label class="flex items-center gap-xs p-sm bg-surface-container-low rounded-lg border border-outline-variant cursor-pointer hover:bg-surface-container transition-colors">
-                            <input class="rounded text-primary focus:ring-primary" type="checkbox" />
-                            <span class="text-label-sm">Gluten</span>
-                        </label>
-                        <label class="flex items-center gap-xs p-sm bg-surface-container-low rounded-lg border border-outline-variant cursor-pointer hover:bg-surface-container transition-colors">
-                            <input class="rounded text-primary focus:ring-primary" type="checkbox" />
-                            <span class="text-label-sm">Soy</span>
-                        </label>
+                        <textarea class="w-full px-md py-2.5 rounded-lg border border-outline-variant bg-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                            placeholder="List all main ingredients..."
+                            rows="2"
+                            id="ingredient"
+                            name="ingredient"></textarea>
                     </div>
                 </div>
             </div>
             <!-- Footer Actions -->
             <div class="p-gutter border-t border-outline-variant bg-surface-container-low flex gap-md">
-                <button class="flex-1 px-md py-3 rounded-lg border border-outline-variant text-on-surface-variant font-bold hover:bg-surface-container transition-all" onclick="toggleSidePanel()">Discard</button>
-                <button class="flex-1 px-md py-3 rounded-lg bg-primary text-on-primary font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all">Save Meal</button>
+                <button
+                    class="flex-1 px-md py-3 rounded-lg bg-primary text-on-primary font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                    type="submit">
+                    Save Meal</button>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 <!-- Mobile Navigation -->
@@ -286,7 +280,6 @@
     searchInput.addEventListener('blur', () => {
         searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
     });
-
 </script>
 
 
